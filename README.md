@@ -1,2 +1,2 @@
 # myLang
-a freqeuency based language encryption program 
+An audio freqeuency based language encryption program 
