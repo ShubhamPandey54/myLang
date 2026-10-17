@@ -1,37 +1,107 @@
 import numpy as np
+from scipy.io import wavfile
 
-x= np.linspace(0.,1.,44100)
-for i in x:
-  if i in x[:15]:
-    data=np.sin(2*np.pi*780*x)
+class decrypt():
+      def __init__(self,filename):
+            self.filename=filename
+            
+      def decode(self):     
+        try:
+            samplerate, y = wavfile.read(self.filename)
+        except FileNotFoundError :
+            raise ValueError("not a valid file")
+
+        s=[]
+        i=0
+        while i<=(len(y)-samplerate):
+         s.append(y[i:i+samplerate])
+         i+=samplerate
+
+        j=[]
+
+        for i in s :
+          N = samplerate
+          audio_block = i[0:N]  # Take the first N samples
+          windowed_audio = audio_block * np.hanning(N)
+          fft_output = np.fft.fft(windowed_audio)
+          magnitudes = np.abs(fft_output)[:N // 2]
+          frequencies = np.linspace(0, samplerate / 2, N // 2)
+          dominant_index = np.argmax(magnitudes)
+          peak_frequency = frequencies[dominant_index]
+          j.append(peak_frequency)
+          
+
     
-  else: 
-    data=np.sin((np.pi)-(2*np.pi*780*x))
- 
+        word=[]
+        for i in j:
+         if round(i)==780: 
+            word.append("s")
+         elif round(i)==250:
+             word.append(" ")     
+         elif round(i)==420:
+             word.append("a")
+         elif round(i)==440:
+             word.append("b")
+         elif round(i)==460:
+             word.append("c")
+       
+         elif round(i)==480:
+             word.append("d")     
+         elif round(i)==500:
+             word.append("e")
+         elif round(i)==520:
+             word.append("f")
+         elif round(i)==540:
+             word.append("g")
 
-string=[]
-d=15
-for i in data[15:45]:
-   m= np.linspace(0.,1.,44100)
-   z=np.arcsin(i)
-   x=(np.pi-z)/(2*np.pi*m[d])
-   print(x)
-   if 778<x<781:
-     string.append("s")
-   d+=1
-   
+         elif round(i)==560:
+             word.append("h")     
+         elif round(i)==580:
+             word.append("i")
+         elif round(i)==600:
+             word.append("j")
+         elif round(i)==620:
+             word.append("k")
 
-sd=[]  
-con=1
-for i in data[1:15]:
-    m= np.linspace(0.,1.,44100)
-    z=np.arcsin(i)
-    x=z/(2*np.pi*m[con])
-    if 778<x<781:
-     sd.append("s")
-    con+=1
+         elif round(i)==640:
+             word.append("l")     
+         elif round(i)==660:
+             word.append("m")
+         elif round(i)==680:
+             word.append("n")
+         elif round(i)==700:
+             word.append("o")
+    
+         elif round(i)==720:
+             word.append("p")     
+         elif round(i)==740:
+             word.append("q")
+         elif round(i)==760:
+             word.append("r")
+         elif round(i)==800:
+             word.append("t")
+    
+         elif round(i)==820:
+             word.append("u")     
+         elif round(i)==840:
+             word.append("v")
+         elif round(i)==860:
+             word.append("w")
+         elif round(i)==880:
+             word.append("x")
 
-print(len(string))
-print(len(sd))
+         elif round(i)==900:
+             word.append("y")     
+         elif round(i)==920:
+             word.append("z")
+       
+        for i in word :
+            print(i,end="")
+
+filename=input("filename")
+text =decrypt(filename)
+text.decode()
+
+
 
 

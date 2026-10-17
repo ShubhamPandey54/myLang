@@ -172,7 +172,7 @@ class mylang():
 
       data=np.array(s)
       print(data)
-      write("final.wav",44100,data.astype(np.float32))
+      write("audio.wav",44100,data.astype(np.float32))
              
 ask=input("TEXT: ")        
 con=mylang(ask)
