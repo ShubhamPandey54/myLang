@@ -1,23 +1,37 @@
+import numpy as np
 
-from scipy.io import wavfile
-import numpy as np 
-import math
+x= np.linspace(0.,1.,44100)
+for i in x:
+  if i in x[:15]:
+    data=np.sin(2*np.pi*780*x)
+    
+  else: 
+    data=np.sin((np.pi)-(2*np.pi*780*x))
+ 
 
-samplerate, data = wavfile.read("final.wav")
 string=[]
-x=np.linspace(0.,1.,44100)
-d=1
-print(x[15])
+d=15
+for i in data[15:45]:
+   m= np.linspace(0.,1.,44100)
+   z=np.arcsin(i)
+   x=(np.pi-z)/(2*np.pi*m[d])
+   print(x)
+   if 778<x<781:
+     string.append("s")
+   d+=1
+   
 
-data[15:20]
-for i in data[1:16]:
-    val=np.asin(i)
-    z=val/(2*np.pi*x[d])
-    if 778<z<781:
-     string.append(z)
-    d=d+1
+sd=[]  
+con=1
+for i in data[1:15]:
+    m= np.linspace(0.,1.,44100)
+    z=np.arcsin(i)
+    x=z/(2*np.pi*m[con])
+    if 778<x<781:
+     sd.append("s")
+    con+=1
 
-c=np.asin(data[149])
-re=c/(2*np.pi*x[149])
-print(re)
+print(len(string))
+print(len(sd))
+
 
