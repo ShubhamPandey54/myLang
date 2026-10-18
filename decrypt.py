@@ -8,9 +8,12 @@ class decrypt():
       def decode(self):     
         try:
             samplerate, y = wavfile.read(self.filename)
+            if y[len(y)-1] ==9999:
+                print("secret value:",y[len(y)-2])
+                
         except FileNotFoundError :
             raise ValueError("not a valid file")
-
+       
         s=[]
         i=0
         while i<=(len(y)-samplerate):
@@ -21,7 +24,7 @@ class decrypt():
 
         for i in s :
           N = samplerate
-          audio_block = i[0:N]  # Take the first N samples
+          audio_block = i[0:N]  
           windowed_audio = audio_block * np.hanning(N)
           fft_output = np.fft.fft(windowed_audio)
           magnitudes = np.abs(fft_output)[:N // 2]
@@ -29,8 +32,6 @@ class decrypt():
           dominant_index = np.argmax(magnitudes)
           peak_frequency = frequencies[dominant_index]
           j.append(peak_frequency)
-          
-
     
         word=[]
         for i in j:
