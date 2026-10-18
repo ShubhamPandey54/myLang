@@ -90,11 +90,100 @@ class decrypt():
              word.append("w")
          elif round(i)==880:
              word.append("x")
-
          elif round(i)==900:
              word.append("y")     
          elif round(i)==920:
              word.append("z")
+             
+#NUMBERS
+         elif round(i) == 940:
+             word.append("0")
+         elif round(i) == 960:
+             word.append("1")
+         elif round(i) == 980:
+             word.append("2")
+         elif round(i) == 1000:
+             word.append("3")
+         elif round(i) == 1020:
+             word.append("4")
+         elif round(i) == 1040:
+             word.append("5")
+         elif round(i) == 1060:
+             word.append("6")
+         elif round(i) == 1080:
+             word.append("7")
+         elif round(i) == 1100:
+             word.append("8")
+         elif round(i) == 1120:
+             word.append("9")
+
+#SPECIAL CHARACTERS
+
+         elif round(i) == 1140:
+             word.append("!")
+         elif round(i) == 1160:
+             word.append('"')
+         elif round(i) == 1180:
+             word.append("#")
+         elif round(i) == 1200:
+             word.append("$")
+         elif round(i) == 1220:
+             word.append("%")
+         elif round(i) == 1240:
+             word.append("&")
+         elif round(i) == 1260:
+             word.append("'")
+         elif round(i) == 1280:
+             word.append("(")
+         elif round(i) == 1300:
+             word.append(")")
+         elif round(i) == 1320:
+             word.append("*")
+         elif round(i) == 1340:
+             word.append("+")
+         elif round(i) == 1360:
+             word.append(",")
+         elif round(i) == 1380:
+             word.append("-")
+         elif round(i) == 1400:
+             word.append(".")
+         elif round(i) == 1420:
+             word.append("/")
+         elif round(i) == 1440:
+             word.append(":")
+         elif round(i) == 1460:
+             word.append(";")
+         elif round(i) == 1480:
+             word.append("<")
+         elif round(i) == 1500:
+             word.append("=")
+         elif round(i) == 1520:
+             word.append(">")
+         elif round(i) == 1540:
+             word.append("?")
+         elif round(i) == 1560:
+             word.append("@")
+         elif round(i) == 1580:
+             word.append("[")
+         elif round(i) == 1600:
+             word.append("\\")
+         elif round(i) == 1620:
+             word.append("]")
+         elif round(i) == 1640:
+             word.append("^")
+         elif round(i) == 1660:
+             word.append("_")
+         elif round(i) == 1680:
+             word.append("`")
+         elif round(i) == 1700:
+             word.append("{")
+         elif round(i) == 1720:
+             word.append("|")
+         elif round(i) == 1740:
+             word.append("}")
+         elif round(i) == 1760:
+             word.append("~")
+         
        
         for i in word :
             print(i,end="")
