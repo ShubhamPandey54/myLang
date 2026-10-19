@@ -8,7 +8,7 @@ class decrypt():
       def decode(self):     
         try:
             samplerate, yed = wavfile.read(self.filename)
-            Fs, yes = wavfile.read("C:\\Users\\AMAN\\Downloads\\Cass Elliot - Make Your Own Kind Of Music (Lyric Video).wav")
+            Fs, yes = wavfile.read("C:\\Users\\AMAN\\Downloads\\WhatsApp Ptt 2026-10-19 at 18.29.01-stereo.wav")
             sed=[]
             i=0
             while i<=(len(yes)-44100):
@@ -195,7 +195,7 @@ class decrypt():
          elif round(i) == 1760:
              word.append("~")
          
-    
+        print(word)
         for i in word :
             print(i,end="")
 

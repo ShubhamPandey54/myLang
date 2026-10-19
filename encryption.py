@@ -429,7 +429,7 @@ class mylang():
       self.list.append(key)
 
    def encrypt(self):
-            Fs, y = wavfile.read("C:\\Users\\AMAN\\Downloads\\Cass Elliot - Make Your Own Kind Of Music (Lyric Video).wav")
+            Fs, y = wavfile.read("C:\\Users\\AMAN\\Downloads\\WhatsApp Ptt 2026-10-19 at 18.29.01-stereo.wav")
             s=[]
             i=0
             while i<=(len(y)-44100):
@@ -447,7 +447,7 @@ class mylang():
             array_a_mono_blocks = data.reshape(int(duration), 44100)
             array = np.stack([array_a_mono_blocks, array_a_mono_blocks], axis=-1)
             final_signal=  0.03*array + music 
-            write("fnal.wav",44100, final_signal.reshape(-1, 2).astype(np.float32))
+            write("encrypted.wav",44100, final_signal.reshape(-1, 2).astype(np.float32))
             print("encryption successfull...")
 
 ask=input("TEXT: ")   
