@@ -7,9 +7,19 @@ class decrypt():
             
       def decode(self):     
         try:
-            samplerate, y = wavfile.read(self.filename)
-            if y[len(y)-1] ==9999:
-                print("secret value:",y[len(y)-2])
+            samplerate, yed = wavfile.read(self.filename)
+            Fs, yes = wavfile.read("C:\\Users\\AMAN\\Downloads\\Cass Elliot - Make Your Own Kind Of Music (Lyric Video).wav")
+            sed=[]
+            i=0
+            while i<=(len(yes)-44100):
+                  sed.append(yes[i:i+44100])
+                  i+=Fs
+            duration = len(yed)/samplerate     
+            music=np.array(sed[0:int(duration)])
+            if np.max(np.abs(music)) > 1.0:
+              music = music / 32768.0
+            music=np.concatenate(music,axis=0)
+            y=  yed[:,0] - music[:,0]
                 
         except FileNotFoundError :
             raise ValueError("not a valid file")
@@ -25,11 +35,12 @@ class decrypt():
         for i in s :
           N = samplerate
           audio_block = i[0:N]  
-          windowed_audio = audio_block * np.hanning(N)
-          fft_output = np.fft.fft(windowed_audio)
+
+          fft_output = np.fft.fft(audio_block)
           magnitudes = np.abs(fft_output)[:N // 2]
           frequencies = np.linspace(0, samplerate / 2, N // 2)
           dominant_index = np.argmax(magnitudes)
+          
           peak_frequency = frequencies[dominant_index]
           j.append(peak_frequency)
     
@@ -184,7 +195,7 @@ class decrypt():
          elif round(i) == 1760:
              word.append("~")
          
-       
+    
         for i in word :
             print(i,end="")
 
