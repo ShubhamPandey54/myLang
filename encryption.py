@@ -422,19 +422,14 @@ class mylang():
             data=0.02*np.sin(2*np.pi*1760*x)+np.random.normal(0,0.2,44100)
             for i in data:
                self.list.append(i)
-          
-   def cryptic(self,value,key=9999):
-      self.list.append(value)
-      self.list.append(key)
-
+               
    def encrypt(self):
             data=np.array(self.list)
-            write("final.wav",44100,data.astype(np.float32))
+            write("noise.wav",44100,data.astype(np.float32))
             print("encryption successfull...")
 
 ask=input("TEXT: ")   
 con=mylang(ask)
 con.lang()
-con.cryptic(321)
 con.encrypt()
 

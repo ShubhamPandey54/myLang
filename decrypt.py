@@ -8,8 +8,6 @@ class decrypt():
       def decode(self):     
         try:
             samplerate, y = wavfile.read(self.filename)
-            if y[len(y)-1] ==9999:
-                print("secret value:",y[len(y)-2])
                 
         except FileNotFoundError :
             raise ValueError("not a valid file")
