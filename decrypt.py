@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.io import wavfile
+from encryption import noise 
 
 class decrypt():
       def __init__(self,filename):
@@ -8,13 +9,8 @@ class decrypt():
       def decode(self):     
         try:
             samplerate, yed = wavfile.read(self.filename)
-            Fs, yes = wavfile.read("C:\\Users\\AMAN\\Downloads\\WhatsApp Ptt 2026-10-19 at 18.29.01-stereo.wav")
-            sed=[]
-            i=0
-            while i<=(len(yes)-44100):
-                  sed.append(yes[i:i+44100])
-                  i+=Fs
-            duration = len(yed)/samplerate     
+            duration = len(yed)/samplerate   
+            sed=noise()  
             music=np.array(sed[0:int(duration)])
             if np.max(np.abs(music)) > 1.0:
               music = music / 32768.0
@@ -195,9 +191,9 @@ class decrypt():
          elif round(i) == 1760:
              word.append("~")
          
-        print(word)
         for i in word :
             print(i,end="")
+        
 
 filename=input("filename")
 text =decrypt(filename)

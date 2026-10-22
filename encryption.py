@@ -3,6 +3,15 @@ from scipy.io.wavfile import write
 from scipy.io import wavfile
 import numpy as np 
 
+def noise(): 
+              Fs, y = wavfile.read("C:\\Users\\AMAN\\Downloads\\Cass Elliot - Make Your Own Kind Of Music (Lyric Video).wav")
+              s=[]
+              i=0
+              while i<=(len(y)-44100):
+                  s.append(y[i:i+44100])
+                  i+=Fs
+              return s 
+
 class mylang():
    def __init__(self,string):
       self.string=string
@@ -174,253 +183,253 @@ class mylang():
 
          elif letter=="0":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*940*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*940*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="1":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*960*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*960*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="2":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*980*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*980*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="3":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1000*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1000*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="4":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1020*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1020*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="5":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1040*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1040*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="6":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1060*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1060*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="7":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1080*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1080*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="8":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1100*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1100*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="9":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1120*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1120*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="!":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1140*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1140*x)
             for i in data:
                self.list.append(i)
 
          elif letter=='"':
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1160*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1160*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="#":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1180*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1180*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="$":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1200*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1200*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="%":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1220*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1220*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="&":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1240*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1240*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="'":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1260*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1260*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="(":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1280*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1280*x)
             for i in data:
                self.list.append(i)
 
          elif letter==")":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1300*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1300*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="*":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1320*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1320*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="+":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1340*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1340*x)
             for i in data:
                self.list.append(i)
 
          elif letter==",":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1360*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1360*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="-":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1380*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1380*x)
             for i in data:
                self.list.append(i)
 
          elif letter==".":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1400*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1400*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="/":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1420*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1420*x)
             for i in data:
                self.list.append(i)
 
          elif letter==":":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1440*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1440*x)
             for i in data:
                self.list.append(i)
 
          elif letter==";":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1460*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1460*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="<":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1480*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1480*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="=":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1500*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1500*x)
             for i in data:
                self.list.append(i)
 
          elif letter==">":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1520*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1520*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="?":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1540*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1540*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="@":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1560*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1560*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="[":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1580*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1580*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="\\":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1600*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1600*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="]":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1620*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1620*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="^":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1640*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1640*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="_":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1660*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1660*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="`":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1680*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1680*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="{":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1700*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1700*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="|":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1720*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1720*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="}":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1740*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1740*x)
             for i in data:
                self.list.append(i)
 
          elif letter=="~":
             x=np.linspace(0.,1.,44100)
-            data=0.02*np.sin(2*np.pi*1760*x)+np.random.normal(0,0.2,44100)
+            data=0.02*np.sin(2*np.pi*1760*x)
             for i in data:
                self.list.append(i)
           
@@ -429,12 +438,7 @@ class mylang():
       self.list.append(key)
 
    def encrypt(self):
-            Fs, y = wavfile.read("C:\\Users\\AMAN\\Downloads\\WhatsApp Ptt 2026-10-19 at 18.29.01-stereo.wav")
-            s=[]
-            i=0
-            while i<=(len(y)-44100):
-                  s.append(y[i:i+44100])
-                  i+=Fs
+            s=noise()
             data=np.array(self.list)
             duration=len(data)/44100
             print(duration)
@@ -446,12 +450,14 @@ class mylang():
               music = music / 32768.0
             array_a_mono_blocks = data.reshape(int(duration), 44100)
             array = np.stack([array_a_mono_blocks, array_a_mono_blocks], axis=-1)
-            final_signal=  0.03*array + music 
-            write("encrypted.wav",44100, final_signal.reshape(-1, 2).astype(np.float32))
+            final_signal=  0.0001*array + music 
+            write("music.wav",44100, final_signal.reshape(-1, 2).astype(np.float32))
             print("encryption successfull...")
 
-ask=input("TEXT: ")   
-con=mylang(ask)
-con.lang()
-con.encrypt()
+if __name__=="__main__":
+
+  ask=input("TEXT: ")   
+  con=mylang(ask)
+  con.lang()
+  con.encrypt()
 
