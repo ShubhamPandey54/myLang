@@ -1,2 +1,3 @@
 # myLang
-An audio freqeuency based language encryption program 
+
+an Audio-Based Text Encoding and Steganography System —
