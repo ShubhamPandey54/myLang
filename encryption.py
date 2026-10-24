@@ -2,9 +2,14 @@ import math
 from scipy.io.wavfile import write
 from scipy.io import wavfile
 import numpy as np 
-
-def noise(): 
-              Fs, y = wavfile.read("C:\\Users\\AMAN\\Downloads\\Cass Elliot - Make Your Own Kind Of Music (Lyric Video).wav")
+import hashlib
+import struct
+import zlib
+import io
+from pathlib import Path
+from PIL import Image
+def noise(ile_path): 
+              Fs, y = wavfile.read(ile_path)
               s=[]
               i=0
               while i<=(len(y)-44100):
@@ -13,8 +18,9 @@ def noise():
               return s 
 
 class mylang():
-   def __init__(self,string):
+   def __init__(self,string,key):
       self.string=string
+      self.key=key
       self.list=[]
 
    def lang(self):
@@ -432,18 +438,19 @@ class mylang():
             data=0.02*np.sin(2*np.pi*1760*x)
             for i in data:
                self.list.append(i)
-          
-   def cryptic(self,value,key=9999):
-      self.list.append(value)
-      self.list.append(key)
+                
+   def cryptic(self):
+      s=noise(self.key)
+      data=np.array(self.list)
+      duration=len(data)/44100
+      music=np.array(s[0:int(duration)])
+      
+      return music
 
    def encrypt(self):
-            s=noise()
+            s=noise(self.key)
             data=np.array(self.list)
             duration=len(data)/44100
-            print(duration)
-            print(s[0:int(duration)])
-            print(len(np.array(s[:int(duration)])))
          
             music=np.array(s[0:int(duration)])
             if np.max(np.abs(music)) > 1.0:
@@ -451,13 +458,264 @@ class mylang():
             array_a_mono_blocks = data.reshape(int(duration), 44100)
             array = np.stack([array_a_mono_blocks, array_a_mono_blocks], axis=-1)
             final_signal=  0.0001*array + music 
-            write("music.wav",44100, final_signal.reshape(-1, 2).astype(np.float32))
-            print("encryption successfull...")
+            write("fnal.wav",44100, final_signal.reshape(-1, 2).astype(np.float32))
+            
 
-if __name__=="__main__":
 
+
+   
+MAGIC = b"MYLANG02"
+
+# Magic, index, total parts, chunk length, chunk size,
+# total compressed length, SHA-256 of original WAV
+HEADER_FORMAT = ">8sIIIIQ32s"
+HEADER_SIZE = struct.calcsize(HEADER_FORMAT)
+
+
+def bytes_to_bits(data):
+    return np.unpackbits(
+        np.frombuffer(data, dtype=np.uint8)
+    )
+
+
+def bits_to_bytes(bits):
+    if len(bits) % 8 != 0:
+        raise ValueError("Bit count must be divisible by 8.")
+
+    return np.packbits(bits).tobytes()
+
+
+def image_capacity(image_path):
+    with Image.open(image_path) as image:
+        width, height = image.size
+
+    # Three RGB channels, one hidden bit per channel.
+    return (width * height * 3) // 8
+
+
+def embed_chunk(image_path, output_path, header, chunk):
+    with Image.open(image_path) as image:
+        rgb = np.array(image.convert("RGB"), dtype=np.uint8)
+
+    flat = rgb.reshape(-1)
+    payload = header + chunk
+    bits = bytes_to_bits(payload)
+
+    if len(bits) > flat.size:
+        raise ValueError(
+            f"Image too small for {output_path.name}."
+        )
+
+    flat[:len(bits)] = (
+        (flat[:len(bits)] & 254) | bits
+    )
+
+    Image.fromarray(rgb).save(output_path, format="PNG")
+
+
+
+def embed_audio(data, image_path, output_folder):
+    # Store the array in NumPy's .npy format so its shape and dtype are preserved.
+    audio_array = np.asarray(data, dtype=np.float32)
+    buffer = io.BytesIO()
+    np.save(buffer, audio_array, allow_pickle=False)
+    audio_data = buffer.getvalue()
+
+    # Compress the serialized array and hash the uncompressed bytes.
+    compressed = zlib.compress(audio_data, level=9)
+    digest = hashlib.sha256(audio_data).digest()
+
+    capacity = image_capacity(image_path)
+    chunk_size = capacity - HEADER_SIZE
+
+    if chunk_size <= 0:
+        raise ValueError("The carrier image is too small.")
+
+    total_parts = (len(compressed) + chunk_size - 1) // chunk_size
+
+    output_folder = Path(output_folder)
+    output_folder.mkdir(parents=True, exist_ok=True)
+
+    print(f"Serialized array data: {len(audio_data):,} bytes")
+    print(f"Compressed payload: {len(compressed):,} bytes")
+    print(f"Capacity per image: {capacity:,} bytes")
+    print(f"Images required: {total_parts}")
+
+    for index in range(total_parts):
+        start = index * chunk_size
+        end = start + chunk_size
+        chunk = compressed[start:end]
+
+        header = struct.pack(
+            HEADER_FORMAT,
+            MAGIC,
+            index,
+            total_parts,
+            len(chunk),
+            chunk_size,
+            len(compressed),
+            digest,
+        )
+
+        output_path = output_folder / f"part_{index + 1:04}.png"
+        embed_chunk(image_path, output_path, header, chunk)
+        print(f"Created: {output_path}")
+
+    print("\nAudio array successfully embedded across PNG images.")
+
+
+def extract_chunk(image_path):
+    with Image.open(image_path) as image:
+        if image.format != "PNG":
+            raise ValueError(f"{image_path} is not a PNG.")
+
+        rgb = np.array(image.convert("RGB"), dtype=np.uint8)
+
+    flat = rgb.reshape(-1)
+    bits = flat & 1
+
+    if len(bits) < HEADER_SIZE * 8:
+        raise ValueError(f"{image_path} is too small.")
+
+    header = bits_to_bytes(bits[:HEADER_SIZE * 8])
+
+    (
+        magic,
+        index,
+        total_parts,
+        chunk_length,
+        chunk_size,
+        compressed_length,
+        expected_hash,
+    ) = struct.unpack(HEADER_FORMAT, header)
+
+    if magic != MAGIC:
+        raise ValueError(
+            f"No valid MyLang payload in {image_path}."
+        )
+
+    if chunk_length > chunk_size:
+        raise ValueError("Invalid chunk length.")
+
+    total_bits = (HEADER_SIZE + chunk_length) * 8
+
+    if total_bits > len(bits):
+        raise ValueError(f"Truncated payload in {image_path}.")
+
+    payload = bits_to_bytes(bits[:total_bits])
+    chunk = payload[HEADER_SIZE:]
+
+    return {
+        "index": index,
+        "total": total_parts,
+        "chunk_size": chunk_size,
+        "compressed_length": compressed_length,
+        "hash": expected_hash,
+        "chunk": chunk,
+    }
+
+def decode_audio(input_folder):
+    images = list(Path(input_folder).glob("*.png"))
+
+    if not images:
+        raise FileNotFoundError("No PNG images found in the input folder.")
+
+    chunks = {}
+    expected_total = None
+    expected_digest = None
+    expected_compressed_length = None
+
+    for image_path in images:
+        info = extract_chunk(image_path)
+
+        index = info["index"]
+        total = info["total"]
+        digest = info["hash"]
+        chunk = info["chunk"]
+        compressed_length = info["compressed_length"]
+
+        if expected_total is None:
+            expected_total = total
+            expected_digest = digest
+            expected_compressed_length = compressed_length
+
+        if (
+            total != expected_total
+            or digest != expected_digest
+            or compressed_length != expected_compressed_length
+        ):
+            raise ValueError("Images contain inconsistent payload metadata.")
+
+        if not 0 <= index < total:
+            raise ValueError(f"Invalid chunk index {index} in {image_path}.")
+
+        if index in chunks:
+            raise ValueError(f"Duplicate chunk index {index}.")
+
+        chunks[index] = chunk
+
+    if len(chunks) != expected_total:
+        raise ValueError(
+            f"Expected {expected_total} chunks, found {len(chunks)}."
+        )
+
+    # Reassemble chunks using the index stored in each PNG header.
+    compressed_data = b"".join(
+        chunks[index] for index in range(expected_total)
+    )
+
+    if len(compressed_data) != expected_compressed_length:
+        raise ValueError("Compressed payload length mismatch.")
+
+    # Decompress and verify the exact bytes that were originally embedded.
+    try:
+        audio_data = zlib.decompress(compressed_data)
+    except zlib.error as exc:
+        raise ValueError("Could not decompress the recovered payload.") from exc
+
+    if hashlib.sha256(audio_data).digest() != expected_digest:
+        raise ValueError("Hash mismatch: recovered data is corrupted.")
+
+    # Restore the NumPy array, including its original shape.
+    try:
+        audio_array = np.load(io.BytesIO(audio_data), allow_pickle=False)
+    except (ValueError, OSError) as exc:
+        raise ValueError(
+            "Recovered payload is not a valid NumPy array. "
+            "Re-encode the PNGs with this updated version."
+        ) from exc
+
+    if audio_array.dtype != np.float32:
+        raise ValueError(f"Unexpected recovered dtype: {audio_array.dtype}")
+
+    return audio_array
+
+
+def main():
   ask=input("TEXT: ")   
-  con=mylang(ask)
+  file=input("cover audio file path:")
+  con=mylang(ask,file)
   con.lang()
   con.encrypt()
+  print("Audio file created successfully.")
+  print()
+  print("initializing key creation...")
+  key_main(con)
 
+def key_main(con):
+    print("=== MyLang Audio Steganography ===")
+   
+    image = input(
+                "Enter the carrier PNG image path: "
+            ).strip().strip('"')
+
+    output_folder = input(
+                "Enter the output folder path: "
+            ).strip().strip('"')
+    data=con.cryptic()
+    embed_audio(data,image, output_folder)
+
+
+
+if __name__=="__main__":
+   main()
