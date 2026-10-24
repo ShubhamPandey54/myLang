@@ -1,21 +1,20 @@
 import numpy as np
 from scipy.io import wavfile
 from encryption import noise 
+from encryption import decode_audio
 
 class decrypt():
-      def __init__(self,filename):
+      def __init__(self,filename,array):
             self.filename=filename
-            
+            self.array=array
       def decode(self):     
         try:
-            samplerate, yed = wavfile.read(self.filename)
-            duration = len(yed)/samplerate   
-            sed=noise()  
-            music=np.array(sed[0:int(duration)])
-            if np.max(np.abs(music)) > 1.0:
-              music = music / 32768.0
-            music=np.concatenate(music,axis=0)
-            y=  yed[:,0] - music[:,0]
+            samplerate, yed = wavfile.read(self.filename)  
+            d=self.array
+            if np.max(np.abs(d)) > 1.0:
+              d = d / 32768.0
+            d=np.concatenate(d,axis=0)
+            y=  yed[:,0] - d[:,0]
                 
         except FileNotFoundError :
             raise ValueError("not a valid file")
@@ -192,13 +191,13 @@ class decrypt():
              word.append("~")
          
         for i in word :
-            print(i,end="")
+            return "".join(word)
         
 
-filename=input("filename")
-text =decrypt(filename)
-text.decode()
-
-
-
+filename=input("filename: ")
+ask=input("input key folder: ")
+x=decode_audio(ask)
+text =decrypt(filename,x)
+message = text.decode()
+print(f"Decrypted message: {message}")
 
