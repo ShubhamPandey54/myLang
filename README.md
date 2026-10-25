@@ -1,7 +1,7 @@
 MyLang
 
 <p align="center">
-  <strong>Where language becomes sound.</strong>
+  <strong>Hide text into audio without any distortion.</strong>
   <br/>
   An experimental Python project exploring frequency-based text encoding through audio.
 </p><p align="center">
